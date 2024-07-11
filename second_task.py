@@ -1,11 +1,18 @@
 from typing import Callable
 import  re
 
+"""
+    Функція генератор, що отримує числа з тексту з використанням регулярного виразу
+    й повертає їх по одному перетворюючи у тип float
+"""
 def generator_numbers(text_to_process: str) -> float:
     for revenue in re.findall(r"\d+.\d+", text_to_process):
         yield float(revenue)
 
-
+"""
+    Функція що підраховує суму чисел знайдених в тексті
+    з використанням функції-генератора для їх отримання
+"""
 def sum_profit(text_to_process: str, func: Callable) -> float:
     return sum(func(text_to_process))
 
