@@ -7,6 +7,8 @@ def input_error(func):
             return func(*args, **kwargs)
         except ValueError:
             return "Give me name and phone please."
+        except KeyError:
+            return "Error: contact not found."
 
     return inner
 
@@ -43,10 +45,8 @@ def change_contact(args, contacts):
 @input_error
 def show_phone(args, contacts):
     name = args[0]
-    if name in contacts:
-        return contacts[name]
-    else:
-        return "Error: contact not found."
+    return contacts[name]
+
 
 
 # Створюємо функцію "show_all" яка створюємо рядок для збереження результату,
