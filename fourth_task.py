@@ -1,16 +1,35 @@
-# Розбиваємо введений рядок на команду та аргументи,
-# приводимо команду до нижнього регістру і видаляємо зайві пробіли,
-# повертаємо команду і список аргументів
+"""
+    Розбиваємо введений рядок на команду та аргументи,
+    приводимо команду до нижнього регістру і видаляємо зайві пробіли,
+    повертаємо команду і список аргументів
+"""
+
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, args
 
+"""
+    Декоратор для обробки помилок
+"""
+def input_error(func):
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ValueError:
+            return "Give me name and phone please."
+        except KeyError:
+            return "Contact not found."
+        except IndexError:
+            return "Enter user name."
 
-# Створюємо функцію "add_contact" де перевіряємо,чи передано аргументи,чи існує контак,
-# розпаковуємо аргументи та додаємо новий контакт у словник якщо контакта не існує
+    return inner
 
+"""
+    Створюємо функцію "add_contact" де перевіряємо,чи передано аргументи,чи існує контак,
+    розпаковуємо аргументи та додаємо новий контакт у словник якщо контакта не існує
+"""
 def add_contact(args, contacts):
     name, phone = args
     if name in contacts:
@@ -19,11 +38,11 @@ def add_contact(args, contacts):
         contacts[name] = phone
         return "Contact added."
 
-
-# Створюємо функцію "change_contact" де перевіряємо,
-# чи передано аргументи, розпаковуємо аргументи
-# та якщо контакт існує оновлюємо номер телефону
-
+"""
+    Створюємо функцію "change_contact" де перевіряємо,
+    чи передано аргументи, розпаковуємо аргументи
+    та якщо контакт існує оновлюємо номер телефону
+"""
 def change_contact(args, contacts):
     name, phone = args
     if name in contacts:
@@ -32,10 +51,10 @@ def change_contact(args, contacts):
     else:
         return "Error: contact not found."
 
-
-# Створюємо функцію "show_phone" що перевіряє, чи передано аргумент,
-# отримуємо ім'я з аргументів,якщо контакт існує повертаємо номер телефону
-
+"""
+    Створюємо функцію "show_phone" що перевіряє, чи передано аргумент,
+    отримуємо ім'я з аргументів,якщо контакт існує повертаємо номер телефону
+"""
 def show_phone(args, contacts):
     name = args[0]
     if name in contacts:
@@ -43,10 +62,10 @@ def show_phone(args, contacts):
     else:
         return "Error: contact not found."
 
-
-# Створюємо функцію "show_all" яка створюємо рядок для збереження результату,
-# перевіряє, чи є контакти в словнику, проходить через всі контакти і додає їх в result
-
+"""
+    Створюємо функцію "show_all" яка створюємо рядок для збереження результату,
+    перевіряє, чи є контакти в словнику, проходить через всі контакти і додає їх в result
+"""
 def show_all(contacts):
     # Створюємо рядок для збереження результату
     result = ""
