@@ -86,38 +86,43 @@ def show_all(contacts):
 
 
 def main():
-    # Створюємо порожній словник для контактів
+    """
+        Головна функція асистент-бота. Ця функція запускає нескінченний цикл,
+        який очікує введення користувачем команд для роботи з контактами.
+        В залежності від введеної команди, виконуються відповідні дії:
+        - "close" або "exit": завершення роботи програми
+        - "hello": виводить привітання
+        - "add": додає новий контакт
+        - "change": змінює існуючий контакт
+        - "phone": виводить номер телефону для вказаного контакту
+        - "all": виводить всі збережені контакти
+        - невідома команда: виводить повідомлення про помилку
+    """
     contacts = {}
     print("Welcome to the assistant bot!")
     while True:
-        # Отримує данні від користувача
         user_input = input("Enter a command: ")
         command, args = parse_input(user_input)
 
-        # # Якщо ввели команду "close" або "exit", програма завершує роботу
-        # if command in ["close", "exit"]:
-        #     print("Good bye!")
-        #     break
-        # # Якщо ввели команду "hallo", виводяться привітання
-        # elif command == "hello":
-        #     print("How can I help you?")
-        # # Якщо ввели команду "add", додається контакт
-        # elif command == "add":
-        #     print(add_contact(args, contacts))
-        # # Якщо ввели команду "change", змінюєтьса існуючий номер
-        # elif command == "change":
-        #     print(change_contact(args, contacts))
-        # # Якщо ввели команду "phone", виводяться номер телефону
-        # elif command == "phone":
-        #     print(show_phone(args, contacts))
-        # # Якщо ввели команду "all", виводяться всі контакти
-        # elif command == "all":
-        #     print(show_all(contacts))
-        # # Якщо команда не розпізнана, виводить повідомлення про помилку
-        # else:
-        #     print("Invalid command.")
-
-
+        match command:
+            case "close":
+                print("Good bye!")
+                break
+            case "exit":
+                print("Good bye!")
+                break
+            case "hello":
+                print("How can I help you?")
+            case "add":
+                print(add_contact(args, contacts))
+            case "change":
+                print(change_contact(args, contacts))
+            case "phone":
+                print(show_phone(args, contacts))
+            case "all":
+                print(show_all(contacts))
+            case _:
+                print("Invalid command.")
 
 
 if __name__ == "__main__":
