@@ -1,17 +1,18 @@
 """
-    Розбиваємо введений рядок на команду та аргументи,
+    Парсим введений рядок на команду та аргументи,
     приводимо команду до нижнього регістру і видаляємо зайві пробіли,
     повертаємо команду і список аргументів
 """
-
-
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, args
 
 """
-    Декоратор для обробки помилок
+    Декоратор для обробки помилок, якщо виникає помилка
+    ValueError, повертається повідомлення "Введіть ім'я та телефон",
+    KeyError, повертається повідомлення "Контакт не знайдено",
+    IndexError, повертається повідомлення "Введіть ім'я".
 """
 def input_error(func):
     def inner(*args, **kwargs):
@@ -27,47 +28,51 @@ def input_error(func):
     return inner
 
 """
-    Створюємо функцію "add_contact" де перевіряємо,чи передано аргументи,чи існує контак,
-    розпаковуємо аргументи та додаємо новий контакт у словник якщо контакта не існує
+    Функцію "add_contact" що перевіряє,чи передано аргументи,чи існує контак,
+    розпаковує аргументи та додає новий контакт у словник якщо контакта не існує
 """
+@input_error
 def add_contact(args, contacts):
     name, phone = args
-    if name in contacts:
-        print(" ghtrh")
-    else:
+    if not name in contacts:
         contacts[name] = phone
         return "Contact added."
+    else:
+        raise "The contact already exists"
 
 """
-    Створюємо функцію "change_contact" де перевіряємо,
-    чи передано аргументи, розпаковуємо аргументи
-    та якщо контакт існує оновлюємо номер телефону
+    Функцію "change_contact" що перевіряємо, чи передано аргументи,
+    розпаковує аргументи та якщо контакт існує оновлює номер телефону
 """
+@input_error
 def change_contact(args, contacts):
     name, phone = args
     if name in contacts:
         contacts[name] = phone
         return "Contact updated."
     else:
-        return "Error: contact not found."
+        raise KeyError
 
 """
-    Створюємо функцію "show_phone" що перевіряє, чи передано аргумент,
-    отримуємо ім'я з аргументів,якщо контакт існує повертаємо номер телефону
+    Функцію "show_phone" що перевіряє, чи передано аргумент,
+    отримує ім'я з аргументів,якщо контакт існує повертає номер телефону
 """
+@input_error
 def show_phone(args, contacts):
     name = args[0]
     if name in contacts:
         return contacts[name]
     else:
-        return "Error: contact not found."
+        raise KeyError
 
 """
-    Створюємо функцію "show_all" яка створюємо рядок для збереження результату,
+    Функцію "show_all" що створює рядок для збереження результату,
     перевіряє, чи є контакти в словнику, проходить через всі контакти і додає їх в result
 """
+@input_error
 def show_all(contacts):
-    # Створюємо рядок для збереження результату
+    if not contacts:
+        raise KeyError
     result = ""
     for name, phone in contacts.items():
         result += f"{name}: {phone}\n"
@@ -81,7 +86,6 @@ def main():
     while True:
         # Отримує данні від користувача
         user_input = input("Enter a command: ")
-        # Парсить введення користувача на команду та аргументи
         command, args = parse_input(user_input)
 
         # Якщо ввели команду "close" або "exit", програма завершує роботу
@@ -111,5 +115,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # Запускаємо головну функцію
     main()
