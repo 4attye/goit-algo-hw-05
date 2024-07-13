@@ -7,7 +7,7 @@ def generator_numbers(text_to_process: str) -> float:
         Функція генератор, що отримує числа з тексту з використанням регулярного виразу
         й повертає їх по одному перетворюючи у тип float.
     """
-    for revenue in re.findall(r"\d+.\d+", text_to_process):
+    for revenue in re.findall(r" \d+.\d+ ", text_to_process):
         yield float(revenue)
 
 

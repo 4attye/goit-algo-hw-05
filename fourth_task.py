@@ -41,7 +41,7 @@ def add_contact(args, contacts):
         contacts[name] = phone
         return "Contact added."
     else:
-        raise "The contact already exists"
+        return  "The contact already exists"
 
 
 @input_error
